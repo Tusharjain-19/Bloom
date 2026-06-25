@@ -1,4 +1,4 @@
-# 🌸 Bloom — Bangalore's Luxury Salon Booking Platform
+# 🌸 Bloom - Bangalore's Luxury Salon Booking Platform
 
 > A full-stack, real-time salon discovery and booking ecosystem built for the modern luxury wellness industry.
 
