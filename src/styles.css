@@ -1,0 +1,353 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Bloom — Luxury Salon Discovery
+ * Design: Minimalist Luxury / Editorial
+ * Palette: Monochromatic + Warm Bronze Accents
+ * Typography: Playfair Display (headlines) + Inter (body)
+ * Inspired by: Aesop, Le Labo, The White Company
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 16px);
+
+  --font-display: "Playfair Display", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-emerald: var(--emerald);
+  --color-emerald-foreground: var(--emerald-foreground);
+  --color-brass: var(--brass);
+  --color-cream: var(--cream);
+  --color-ink: var(--ink);
+
+  /* Luxury palette tokens */
+  --color-bronze: #8b7355;
+  --color-champagne: #c9a96e;
+  --color-warm-gray: #6b6b6b;
+  --color-light-gray: #9b9b9b;
+  --color-surface-warm: #fafaf8;
+
+  --gradient-warm: linear-gradient(to bottom, #fafaf8 0%, #ffffff 100%);
+  --gradient-spice: linear-gradient(to bottom, oklch(0.96 0 0) 0%, oklch(1 0 0) 100%);
+  --gradient-jade: linear-gradient(to bottom, oklch(0.95 0 0) 0%, oklch(1 0 0) 100%);
+
+  --shadow-soft: 0 1px 2px oklch(0 0 0 / 0.02), 0 8px 24px oklch(0 0 0 / 0.04);
+  --shadow-lift: 0 4px 12px oklch(0 0 0 / 0.04), 0 20px 40px oklch(0 0 0 / 0.08);
+}
+
+:root {
+  --radius: 0px;
+
+  /* Minimalist luxury — monochromatic */
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+
+  --primary: #1a1a1a;
+  --primary-foreground: #ffffff;
+
+  --secondary: #f5f5f3;
+  --secondary-foreground: #1a1a1a;
+
+  --muted: #f5f5f3;
+  --muted-foreground: #6b6b6b;
+
+  --accent: #fafaf8;
+  --accent-foreground: #1a1a1a;
+
+  --destructive: #4a4a4a;
+  --destructive-foreground: #ffffff;
+
+  --border: rgba(26, 26, 26, 0.08);
+  --input: rgba(26, 26, 26, 0.08);
+  --ring: #8b7355;
+
+  /* Custom tokens */
+  --emerald: #6b6b6b;
+  --emerald-foreground: #ffffff;
+  --brass: #8b7355;
+  --cream: #fafaf8;
+  --ink: #1a1a1a;
+}
+
+.dark {
+  --background: #0f0f0f;
+  --foreground: #e8e6e3;
+  --card: #1a1a1a;
+  --card-foreground: #e8e6e3;
+  --popover: #1a1a1a;
+  --popover-foreground: #e8e6e3;
+  --primary: #e8e6e3;
+  --primary-foreground: #0f0f0f;
+  --secondary: #1e1e1e;
+  --secondary-foreground: #e8e6e3;
+  --muted: #1e1e1e;
+  --muted-foreground: #9b9b9b;
+  --accent: #1e1e1e;
+  --accent-foreground: #e8e6e3;
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: #e8e6e3;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #c9a96e;
+  --emerald: #9b9b9b;
+  --emerald-foreground: #0f0f0f;
+  --brass: #c9a96e;
+  --cream: #1e1e1e;
+  --ink: #e8e6e3;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html,
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+  }
+
+  /* Selection styling */
+  ::selection {
+    background-color: #8b7355;
+    color: #ffffff;
+  }
+}
+
+/* ========================================
+   MARQUEE — Infinite scrolling service tags
+   ======================================== */
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  animation: marquee-scroll 25s linear infinite;
+  width: max-content;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ========================================
+   EDITORIAL IMAGE — Grayscale transitions
+   ======================================== */
+.editorial-img {
+  filter: grayscale(100%);
+  opacity: 0.9;
+  transition:
+    filter 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.editorial-img:hover,
+.group:hover .editorial-img {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+/* ========================================
+   REVEAL ANIMATION — Fade-in on scroll
+   ======================================== */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: fade-up 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.reveal-delay-1 {
+  animation-delay: 0.1s;
+}
+.reveal-delay-2 {
+  animation-delay: 0.2s;
+}
+.reveal-delay-3 {
+  animation-delay: 0.3s;
+}
+.reveal-delay-4 {
+  animation-delay: 0.4s;
+}
+
+/* ========================================
+   HAIRLINE — Ultra-thin dividers
+   ======================================== */
+.hairline {
+  height: 1px;
+  background: rgba(26, 26, 26, 0.06);
+}
+
+/* Hide Lovable Badge as requested */
+#lovable-badge,
+.lovable-badge,
+a[href*="lovable.dev"] {
+  display: none !important;
+}
+
+/* ========================================
+   UTILITIES
+   ======================================== */
+@utility bg-gradient-warm {
+  background-image: var(--gradient-warm);
+}
+@utility bg-gradient-spice {
+  background-image: var(--gradient-spice);
+}
+@utility bg-gradient-jade {
+  background-image: var(--gradient-jade);
+}
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+@utility shadow-lift {
+  box-shadow: var(--shadow-lift);
+}
+
+/* ========================================
+   LUXURY NAV & LINK ANIMATIONS
+   ======================================== */
+.luxury-link {
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+.luxury-link::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--color-bronze);
+  transform-origin: bottom right;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.luxury-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.luxury-link-active {
+  color: var(--color-bronze) !important;
+}
+
+.luxury-link-active::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(1);
+  height: 1px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--color-bronze);
+}
+
+/* ========================================
+   LUXURY EDITORIAL REVEALS & CHAT ANIMATIONS
+   ======================================== */
+@keyframes clip-reveal {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.luxury-reveal-img {
+  animation: clip-reveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes mask-slide-up {
+  from {
+    transform: translateY(60px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.luxury-text-reveal {
+  animation: mask-slide-up 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes slide-in-chat {
+  from {
+    transform: translateY(40px) scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.chat-panel-animate {
+  animation: slide-in-chat 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
