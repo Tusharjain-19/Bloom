@@ -1,5 +1,16 @@
 import { useState, useEffect } from "react";
-import { Sparkles, ArrowRight, ArrowLeft, X, ExternalLink, CreditCard, Shield, Landmark, User, Laptop } from "lucide-react";
+import {
+  Sparkles,
+  ArrowRight,
+  ArrowLeft,
+  X,
+  ExternalLink,
+  CreditCard,
+  Shield,
+  Landmark,
+  User,
+  Laptop,
+} from "lucide-react";
 
 export function HackathonTour() {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +62,7 @@ export function HackathonTour() {
       <div className="relative w-full max-w-2xl bg-[#fafaf8] border border-[#8b7355]/20 text-[#1a1a1a] shadow-lift p-8 md:p-10 flex flex-col justify-between overflow-hidden rounded-none max-h-[90vh]">
         {/* Decorative Luxury Lines */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#8b7355] to-transparent" />
-        
+
         {/* Close button */}
         <button
           onClick={handleClose}
@@ -67,9 +78,15 @@ export function HackathonTour() {
             Step {step} of 3
           </span>
           <div className="flex gap-1 ml-auto">
-            <div className={`h-1 w-8 transition-colors duration-300 ${step >= 1 ? "bg-bronze" : "bg-foreground/10"}`} />
-            <div className={`h-1 w-8 transition-colors duration-300 ${step >= 2 ? "bg-bronze" : "bg-foreground/10"}`} />
-            <div className={`h-1 w-8 transition-colors duration-300 ${step >= 3 ? "bg-bronze" : "bg-foreground/10"}`} />
+            <div
+              className={`h-1 w-8 transition-colors duration-300 ${step >= 1 ? "bg-bronze" : "bg-foreground/10"}`}
+            />
+            <div
+              className={`h-1 w-8 transition-colors duration-300 ${step >= 2 ? "bg-bronze" : "bg-foreground/10"}`}
+            />
+            <div
+              className={`h-1 w-8 transition-colors duration-300 ${step >= 3 ? "bg-bronze" : "bg-foreground/10"}`}
+            />
           </div>
         </div>
 
@@ -81,15 +98,16 @@ export function HackathonTour() {
                 <Sparkles className="h-3 w-3" />
                 Hackathon Submission
               </div>
-              
+
               <h2 className="font-display text-3xl md:text-4xl text-[#1a1a1a] tracking-tight leading-tight">
                 Welcome to Bloom
               </h2>
-              
+
               <p className="text-[14px] leading-relaxed text-warm-gray font-light">
-                Hello and welcome! My name is <strong className="font-medium text-[#1a1a1a]">Tushar Jain</strong>. 
-                I built Bloom as an ultra-luxury, high-end salon discovery and booking ecosystem designed specifically 
-                for modern aesthetics and seamless operations.
+                Hello and welcome! My name is{" "}
+                <strong className="font-medium text-[#1a1a1a]">Tushar Jain</strong>. I built Bloom
+                as an ultra-luxury, high-end salon discovery and booking ecosystem designed
+                specifically for modern aesthetics and seamless operations.
               </p>
 
               <div className="p-5 border border-foreground/5 bg-white space-y-3.5">
@@ -98,20 +116,24 @@ export function HackathonTour() {
                     <User className="h-4.5 w-4.5" />
                   </div>
                   <div>
-                    <h4 className="text-xs uppercase tracking-widest font-semibold text-warm-gray">Developer & Creator</h4>
+                    <h4 className="text-xs uppercase tracking-widest font-semibold text-warm-gray">
+                      Developer & Creator
+                    </h4>
                     <p className="text-sm font-medium text-[#1a1a1a]">Tushar Jain</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                   <div className="p-2.5 bg-bronze/5 rounded-full text-bronze">
                     <Laptop className="h-4.5 w-4.5" />
                   </div>
                   <div>
-                    <h4 className="text-xs uppercase tracking-widest font-semibold text-warm-gray">Portfolio Website</h4>
-                    <a 
-                      href="https://tusharjain.in" 
-                      target="_blank" 
+                    <h4 className="text-xs uppercase tracking-widest font-semibold text-warm-gray">
+                      Portfolio Website
+                    </h4>
+                    <a
+                      href="https://tusharjain.in"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm text-bronze hover:underline inline-flex items-center gap-1.5 font-medium group"
                     >
@@ -123,7 +145,8 @@ export function HackathonTour() {
               </div>
 
               <p className="text-[13px] text-warm-gray font-light italic">
-                Please take a quick 2-step tour to see the advanced functionalities of this platform, including live booking, dashboard management, and test checkout.
+                Please take a quick 2-step tour to see the advanced functionalities of this
+                platform, including live booking, dashboard management, and test checkout.
               </p>
             </div>
           )}
@@ -133,9 +156,10 @@ export function HackathonTour() {
               <h2 className="font-display text-3xl text-[#1a1a1a] tracking-tight">
                 An Integrated Ecosystem
               </h2>
-              
+
               <p className="text-[14px] leading-relaxed text-warm-gray font-light">
-                Bloom is not just a homepage. It consists of multiple fully-working portals working together in real time:
+                Bloom is not just a homepage. It consists of multiple fully-working portals working
+                together in real time:
               </p>
 
               <div className="grid gap-3.5 sm:grid-cols-2 text-left">
@@ -144,7 +168,8 @@ export function HackathonTour() {
                     1. Luxury Discovery & Booking
                   </h3>
                   <p className="text-xs text-warm-gray leading-relaxed font-light">
-                    Clients browse verified high-end salons, choose services, and check out with Razorpay or chat with our AI Concierge.
+                    Clients browse verified high-end salons, choose services, and check out with
+                    Razorpay or chat with our AI Concierge.
                   </p>
                 </div>
 
@@ -153,7 +178,8 @@ export function HackathonTour() {
                     2. Salon Owner Admin
                   </h3>
                   <p className="text-xs text-warm-gray leading-relaxed font-light">
-                    Manage service menus, holidays, bookings, payments, and view detailed analytical revenue charts.
+                    Manage service menus, holidays, bookings, payments, and view detailed analytical
+                    revenue charts.
                   </p>
                 </div>
 
@@ -162,7 +188,8 @@ export function HackathonTour() {
                     3. Point of Sale (POS)
                   </h3>
                   <p className="text-xs text-warm-gray leading-relaxed font-light">
-                    An in-salon register interface to check out walk-in customers and print premium, customized thermal bills.
+                    An in-salon register interface to check out walk-in customers and print premium,
+                    customized thermal bills.
                   </p>
                 </div>
 
@@ -171,7 +198,8 @@ export function HackathonTour() {
                     4. HQ Super Admin
                   </h3>
                   <p className="text-xs text-warm-gray leading-relaxed font-light">
-                    Moderate registered salons, review ownership claim requests, and adjust global settings.
+                    Moderate registered salons, review ownership claim requests, and adjust global
+                    settings.
                   </p>
                 </div>
               </div>
@@ -182,8 +210,15 @@ export function HackathonTour() {
                   Integration Notes
                 </div>
                 <ul className="text-xs text-amber-900/80 leading-relaxed font-light list-disc pl-4 space-y-1">
-                  <li><strong className="font-semibold text-amber-900">Razorpay Integration</strong>: Active in Test Mode for bookings and POS bills.</li>
-                  <li><strong className="font-semibold text-amber-900">Google Authentication</strong>: Not available yet in this environment. Use email sign-in or book directly as a guest client.</li>
+                  <li>
+                    <strong className="font-semibold text-amber-900">Razorpay Integration</strong>:
+                    Active in Test Mode for bookings and POS bills.
+                  </li>
+                  <li>
+                    <strong className="font-semibold text-amber-900">Google Authentication</strong>:
+                    Not available yet in this environment. Use email sign-in or book directly as a
+                    guest client.
+                  </li>
                 </ul>
               </div>
             </div>
@@ -194,9 +229,10 @@ export function HackathonTour() {
               <h2 className="font-display text-3xl text-[#1a1a1a] tracking-tight">
                 How to Test Razorpay & Checkout
               </h2>
-              
+
               <p className="text-[14px] leading-relaxed text-warm-gray font-light">
-                To test the online payment system and the Point of Sale (POS) terminal, please follow these steps:
+                To test the online payment system and the Point of Sale (POS) terminal, please
+                follow these steps:
               </p>
 
               <div className="space-y-3.5">
@@ -205,7 +241,9 @@ export function HackathonTour() {
                     1
                   </div>
                   <p className="text-xs text-warm-gray leading-relaxed font-light">
-                    Go to <strong className="font-medium text-[#1a1a1a]">Salon Admin</strong> (accessible in the header after signing in, or use POS mode). Or, book a service as a guest from the directory.
+                    Go to <strong className="font-medium text-[#1a1a1a]">Salon Admin</strong>{" "}
+                    (accessible in the header after signing in, or use POS mode). Or, book a service
+                    as a guest from the directory.
                   </p>
                 </div>
 
@@ -214,7 +252,10 @@ export function HackathonTour() {
                     2
                   </div>
                   <p className="text-xs text-warm-gray leading-relaxed font-light">
-                    In the Salon Admin dashboard, go to the <strong className="font-medium text-[#1a1a1a]">POS Tab</strong>, add any services to the checkout cart, select Razorpay as the payment method, and click print/bill.
+                    In the Salon Admin dashboard, go to the{" "}
+                    <strong className="font-medium text-[#1a1a1a]">POS Tab</strong>, add any
+                    services to the checkout cart, select Razorpay as the payment method, and click
+                    print/bill.
                   </p>
                 </div>
 
@@ -223,7 +264,9 @@ export function HackathonTour() {
                     3
                   </div>
                   <p className="text-xs text-warm-gray leading-relaxed font-light">
-                    When the Razorpay secure overlay opens, choose <strong className="font-medium text-[#1a1a1a]">Card</strong> and enter the test details below:
+                    When the Razorpay secure overlay opens, choose{" "}
+                    <strong className="font-medium text-[#1a1a1a]">Card</strong> and enter the test
+                    details below:
                   </p>
                 </div>
               </div>
@@ -242,7 +285,7 @@ export function HackathonTour() {
                     Test Mode
                   </span>
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <div className="col-span-2">
                     <label className="text-[9px] uppercase tracking-wider text-light-gray block mb-1">
@@ -256,7 +299,9 @@ export function HackathonTour() {
                     <label className="text-[9px] uppercase tracking-wider text-light-gray block mb-1">
                       Expiry Date
                     </label>
-                    <p className="text-xs font-semibold text-[#1a1a1a]">Any future date (e.g. 12/29)</p>
+                    <p className="text-xs font-semibold text-[#1a1a1a]">
+                      Any future date (e.g. 12/29)
+                    </p>
                   </div>
                   <div>
                     <label className="text-[9px] uppercase tracking-wider text-light-gray block mb-1">
@@ -268,7 +313,12 @@ export function HackathonTour() {
               </div>
 
               <p className="text-xs text-warm-gray leading-relaxed font-light">
-                Once the payment succeeds, the system automatically redirects, updates your booking status to <span className="text-emerald-700 bg-emerald-50 px-1.5 py-0.5 font-medium border border-emerald-100">Paid</span>, updates the revenue charts, and prints a formatted thermal receipt.
+                Once the payment succeeds, the system automatically redirects, updates your booking
+                status to{" "}
+                <span className="text-emerald-700 bg-emerald-50 px-1.5 py-0.5 font-medium border border-emerald-100">
+                  Paid
+                </span>
+                , updates the revenue charts, and prints a formatted thermal receipt.
               </p>
             </div>
           )}

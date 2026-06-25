@@ -70,7 +70,11 @@ function HqAdmin() {
   const [reloadKey, setReloadKey] = useState(0);
   const [rejectingId, setRejectingId] = useState<string | null>(null);
   const [rejectReason, setRejectReason] = useState("");
-  const [confirmAction, setConfirmAction] = useState<{title: string, description: string, onConfirm: () => void} | null>(null);
+  const [confirmAction, setConfirmAction] = useState<{
+    title: string;
+    description: string;
+    onConfirm: () => void;
+  } | null>(null);
 
   // Check if any admin exists (for the bootstrap UI)
   useEffect(() => {
@@ -168,11 +172,14 @@ function HqAdmin() {
       title: "Remove Owner",
       description: `Remove owner from "${name}"?`,
       onConfirm: async () => {
-        const { error } = await supabase.from("salons").update({ owner_id: null }).eq("id", salonId);
+        const { error } = await supabase
+          .from("salons")
+          .update({ owner_id: null })
+          .eq("id", salonId);
         if (error) return toast.error(error.message);
         toast.success("Owner removed");
         setReloadKey((k) => k + 1);
-      }
+      },
     });
   };
 
@@ -185,7 +192,7 @@ function HqAdmin() {
         if (error) return toast.error(error.message);
         toast.success("Booking deleted");
         setReloadKey((k) => k + 1);
-      }
+      },
     });
   };
 
@@ -286,7 +293,10 @@ function HqAdmin() {
               .map((s) => {
                 const owner = users.find((u) => u.user_id === s.owner_id);
                 return (
-                  <div key={s.id} className="rounded-none border border-foreground/8 bg-card p-6 shadow-none">
+                  <div
+                    key={s.id}
+                    className="rounded-none border border-foreground/8 bg-card p-6 shadow-none"
+                  >
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-3">
@@ -299,8 +309,14 @@ function HqAdmin() {
                           {s.neighborhood} · {s.price_tier} · Submitted by{" "}
                           {owner?.full_name ?? owner?.email ?? "Not assigned"}
                         </div>
-                        {s.tagline && <p className="mt-3 italic text-xs leading-relaxed text-foreground/80">{s.tagline}</p>}
-                        <p className="mt-2 text-xs leading-relaxed text-foreground/75">{s.description}</p>
+                        {s.tagline && (
+                          <p className="mt-3 italic text-xs leading-relaxed text-foreground/80">
+                            {s.tagline}
+                          </p>
+                        )}
+                        <p className="mt-2 text-xs leading-relaxed text-foreground/75">
+                          {s.description}
+                        </p>
                         {s.specialties && s.specialties.length > 0 && (
                           <div className="mt-3 flex flex-wrap gap-1.5">
                             {s.specialties.map((sp) => (
@@ -538,14 +554,18 @@ function HqAdmin() {
       <AlertDialog open={!!confirmAction} onOpenChange={(open) => !open && setConfirmAction(null)}>
         <AlertDialogContent className="rounded-none border-foreground/10 bg-card">
           <AlertDialogHeader>
-            <AlertDialogTitle className="font-display tracking-wide">{confirmAction?.title}</AlertDialogTitle>
+            <AlertDialogTitle className="font-display tracking-wide">
+              {confirmAction?.title}
+            </AlertDialogTitle>
             <AlertDialogDescription className="text-xs uppercase tracking-widest text-muted-foreground mt-2">
               {confirmAction?.description}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="mt-4">
-            <AlertDialogCancel className="rounded-none text-[10px] uppercase tracking-widest font-bold">Cancel</AlertDialogCancel>
-            <AlertDialogAction 
+            <AlertDialogCancel className="rounded-none text-[10px] uppercase tracking-widest font-bold">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
               onClick={() => {
                 confirmAction?.onConfirm();
                 setConfirmAction(null);
@@ -564,7 +584,9 @@ function HqAdmin() {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-none border border-foreground/8 bg-card p-5 shadow-none">
-      <div className="text-[9px] uppercase tracking-widest font-bold text-muted-foreground">{label}</div>
+      <div className="text-[9px] uppercase tracking-widest font-bold text-muted-foreground">
+        {label}
+      </div>
       <div className="mt-2 font-display text-2xl tracking-wide">{value}</div>
     </div>
   );

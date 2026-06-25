@@ -38,3 +38,6 @@ dist-ssr
 
 # Dev scratch scripts
 scratch/
+
+# Vercel build directory
+.vercel/

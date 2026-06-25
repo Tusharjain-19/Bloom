@@ -253,10 +253,15 @@ function BookingModal({
 
   // Razorpay payment integration states
   const [createdBookingId, setCreatedBookingId] = useState<string | null>(null);
-  const [paymentTab, setPaymentTab] = useState<'upi' | 'card'>('upi');
+  const [paymentTab, setPaymentTab] = useState<"upi" | "card">("upi");
   const [loadingQr, setLoadingQr] = useState(false);
-  const [qrData, setQrData] = useState<{imageUrl: string, upiString: string, qrCodeId: string, isFallback: boolean} | null>(null);
-  
+  const [qrData, setQrData] = useState<{
+    imageUrl: string;
+    upiString: string;
+    qrCodeId: string;
+    isFallback: boolean;
+  } | null>(null);
+
   // Card payment simulation states
   const [cardNo, setCardNo] = useState("");
   const [cardName, setCardName] = useState("");
@@ -290,7 +295,7 @@ function BookingModal({
 
   // Load QR code for booking deposit
   useEffect(() => {
-    if (step === 4 && paymentTab === 'upi' && createdBookingId && salon.booking_amount) {
+    if (step === 4 && paymentTab === "upi" && createdBookingId && salon.booking_amount) {
       const loadQR = async () => {
         setLoadingQr(true);
         try {
@@ -302,7 +307,7 @@ function BookingModal({
               bookingId: createdBookingId,
               salonId: salon.id,
               fallbackUpiId: salon.business_details?.upi_id,
-            }
+            },
           });
           if (res.success && res.imageUrl) {
             setQrData({
@@ -322,11 +327,20 @@ function BookingModal({
       };
       loadQR();
     }
-  }, [step, paymentTab, createdBookingId, salon.booking_amount, salon.name, salon.id, service.name]);
+  }, [
+    step,
+    paymentTab,
+    createdBookingId,
+    salon.booking_amount,
+    salon.name,
+    salon.id,
+    service.name,
+  ]);
 
   // Poll for booking QR payment completion
   useEffect(() => {
-    if (step !== 4 || paymentTab !== 'upi' || !qrData || qrData.isFallback || !createdBookingId) return;
+    if (step !== 4 || paymentTab !== "upi" || !qrData || qrData.isFallback || !createdBookingId)
+      return;
     const interval = setInterval(async () => {
       try {
         const res = await checkRazorpayPaymentStatus({ data: { qrCodeId: qrData.qrCodeId } });
@@ -341,7 +355,7 @@ function BookingModal({
               advance_paid: salon.booking_amount,
             } as any)
             .eq("id", createdBookingId);
-            
+
           if (error) {
             toast.error("Failed to update booking payment: " + error.message);
             return;
@@ -369,18 +383,33 @@ function BookingModal({
       }
     }, 4000);
     return () => clearInterval(interval);
-  }, [step, paymentTab, qrData, createdBookingId, salon.booking_amount, date, time, name, phone, notes]);
+  }, [
+    step,
+    paymentTab,
+    qrData,
+    createdBookingId,
+    salon.booking_amount,
+    date,
+    time,
+    name,
+    phone,
+    notes,
+  ]);
 
   useEffect(() => {
     let active = true;
-    (supabase
-      .from("booking_slots" as any) as any)
+    (supabase.from("booking_slots" as any) as any)
       .select("booking_date,booking_time,status")
       .eq("salon_id", salon.id)
       .neq("status", "cancelled")
       .gte("booking_date", today)
       .then((res: any) => {
-        if (res.error && (res.error.code === "PGRST301" || (res.error as any).status === 401 || (res.error.message || "").toLowerCase().includes("jwt"))) {
+        if (
+          res.error &&
+          (res.error.code === "PGRST301" ||
+            (res.error as any).status === 401 ||
+            (res.error.message || "").toLowerCase().includes("jwt"))
+        ) {
           // Stale session, clear and reload
           supabase.auth.signOut().then(() => {
             window.location.reload();
@@ -459,13 +488,14 @@ function BookingModal({
 
   const submit = async () => {
     setSubmitting(true);
-    const bookingId = typeof window !== "undefined" && window.crypto?.randomUUID
-      ? window.crypto.randomUUID()
-      : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-          const r = (Math.random() * 16) | 0;
-          const v = c === "x" ? r : (r & 0x3) | 0x8;
-          return v.toString(16);
-        });
+    const bookingId =
+      typeof window !== "undefined" && window.crypto?.randomUUID
+        ? window.crypto.randomUUID()
+        : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+            const r = (Math.random() * 16) | 0;
+            const v = c === "x" ? r : (r & 0x3) | 0x8;
+            return v.toString(16);
+          });
 
     const insertPayload = {
       id: bookingId,
@@ -487,10 +517,17 @@ function BookingModal({
     };
 
     let { error } = await supabase.from("bookings").insert(insertPayload as any);
-    if (error && (error.code === "PGRST301" || (error as any).status === 401 || (error.message || "").toLowerCase().includes("jwt"))) {
+    if (
+      error &&
+      (error.code === "PGRST301" ||
+        (error as any).status === 401 ||
+        (error.message || "").toLowerCase().includes("jwt"))
+    ) {
       // Stale session detected! Clear local storage session and retry guest booking
       await supabase.auth.signOut();
-      const retry = await supabase.from("bookings").insert({ ...insertPayload, user_id: null } as any);
+      const retry = await supabase
+        .from("bookings")
+        .insert({ ...insertPayload, user_id: null } as any);
       error = retry.error;
     }
     setSubmitting(false);
@@ -498,7 +535,7 @@ function BookingModal({
       toast.error("Couldn't submit booking. Please try again.");
       return;
     }
-    
+
     if (hasDeposit) {
       setCreatedBookingId(bookingId);
       setStep(4);
@@ -518,10 +555,7 @@ function BookingModal({
           salon_name: salon.name,
           salon_slug: salon.slug,
         };
-        sessionStorage.setItem(
-          `bloom-booking-${bookingId}`,
-          JSON.stringify(stored),
-        );
+        sessionStorage.setItem(`bloom-booking-${bookingId}`, JSON.stringify(stored));
       } catch {
         /* sessionStorage unavailable */
       }
@@ -570,7 +604,8 @@ function BookingModal({
             })}
           </div>
           <div className="mt-4 text-[11px] uppercase tracking-[0.15em] text-warm-gray font-medium">
-            Step {step} of {totalSteps} · {["Guest Details", "Reserve Slot", "Confirm Book", "Payment"][step - 1]}
+            Step {step} of {totalSteps} ·{" "}
+            {["Guest Details", "Reserve Slot", "Confirm Book", "Payment"][step - 1]}
           </div>
         </div>
 
@@ -675,7 +710,10 @@ function BookingModal({
                         <Calendar className="h-4 w-4 text-bronze" />
                       </button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0 rounded-none border border-foreground/10 bg-background/95 backdrop-blur-xl shadow-2xl animate-in zoom-in-95 duration-300" align="start">
+                    <PopoverContent
+                      className="w-auto p-0 rounded-none border border-foreground/10 bg-background/95 backdrop-blur-xl shadow-2xl animate-in zoom-in-95 duration-300"
+                      align="start"
+                    >
                       <UiCalendar
                         mode="single"
                         selected={date ? new Date(date + "T00:00:00") : undefined}
@@ -823,29 +861,33 @@ function BookingModal({
             <div className="luxury-text-reveal">
               <h3 className="font-display text-3xl tracking-[-0.02em] mb-2">Secure Deposit</h3>
               <p className="text-[13px] text-warm-gray font-light mb-6">
-                Pay a booking amount of ₹{salon.booking_amount} to reserve your slot at {salon.name}.
+                Pay a booking amount of ₹{salon.booking_amount} to reserve your slot at {salon.name}
+                .
               </p>
 
               {/* Payment Tab Buttons */}
               <div className="grid grid-cols-2 gap-2 border-b border-foreground/10 pb-4 mb-6">
                 <button
                   type="button"
-                  onClick={() => { setPaymentTab('upi'); setQrData(null); }}
+                  onClick={() => {
+                    setPaymentTab("upi");
+                    setQrData(null);
+                  }}
                   className={`flex items-center justify-center gap-2 p-3 border text-xs tracking-wider uppercase font-semibold transition-all ${
-                    paymentTab === 'upi'
-                      ? 'border-bronze bg-bronze/5 text-bronze'
-                      : 'border-foreground/10 hover:bg-surface-warm'
+                    paymentTab === "upi"
+                      ? "border-bronze bg-bronze/5 text-bronze"
+                      : "border-foreground/10 hover:bg-surface-warm"
                   }`}
                 >
                   <QrCode className="h-4 w-4" /> UPI QR Code
                 </button>
                 <button
                   type="button"
-                  onClick={() => setPaymentTab('card')}
+                  onClick={() => setPaymentTab("card")}
                   className={`flex items-center justify-center gap-2 p-3 border text-xs tracking-wider uppercase font-semibold transition-all ${
-                    paymentTab === 'card'
-                      ? 'border-bronze bg-bronze/5 text-bronze'
-                      : 'border-foreground/10 hover:bg-surface-warm'
+                    paymentTab === "card"
+                      ? "border-bronze bg-bronze/5 text-bronze"
+                      : "border-foreground/10 hover:bg-surface-warm"
                   }`}
                 >
                   <CreditCard className="h-4 w-4" /> Card Payment
@@ -853,12 +895,14 @@ function BookingModal({
               </div>
 
               {/* UPI Tab Content */}
-              {paymentTab === 'upi' && (
+              {paymentTab === "upi" && (
                 <div className="text-center space-y-4 py-2">
                   {loadingQr ? (
                     <div className="flex flex-col items-center justify-center py-6 space-y-3">
                       <Loader2 className="h-7 w-7 animate-spin text-bronze" />
-                      <span className="text-[10px] uppercase tracking-widest text-warm-gray font-semibold">Generating Deposit QR...</span>
+                      <span className="text-[10px] uppercase tracking-widest text-warm-gray font-semibold">
+                        Generating Deposit QR...
+                      </span>
                     </div>
                   ) : qrData ? (
                     <div className="flex flex-col items-center justify-center space-y-4 animate-in fade-in zoom-in-95">
@@ -878,7 +922,8 @@ function BookingModal({
                       <button
                         type="button"
                         onClick={async () => {
-                          const mockPayId = "rzp_mock_bk_" + Math.random().toString(36).substring(2);
+                          const mockPayId =
+                            "rzp_mock_bk_" + Math.random().toString(36).substring(2);
                           const { error } = await supabase
                             .from("bookings")
                             .update({
@@ -906,7 +951,10 @@ function BookingModal({
                             customer_phone: phone,
                             notes: notes || null,
                           };
-                          sessionStorage.setItem(`bloom-booking-${createdBookingId!}`, JSON.stringify(stored));
+                          sessionStorage.setItem(
+                            `bloom-booking-${createdBookingId!}`,
+                            JSON.stringify(stored),
+                          );
                           navigate({ to: "/booking/$id", params: { id: createdBookingId! } });
                         }}
                         className="mt-2 inline-flex items-center gap-1.5 rounded-none bg-foreground text-background px-4 py-2 text-[9px] uppercase tracking-widest font-bold hover:bg-bronze hover:text-white transition-all duration-300"
@@ -915,21 +963,25 @@ function BookingModal({
                       </button>
                     </div>
                   ) : (
-                    <p className="text-xs text-muted-foreground">Select QR Tab to load payment options</p>
+                    <p className="text-xs text-muted-foreground">
+                      Select QR Tab to load payment options
+                    </p>
                   )}
                 </div>
               )}
 
               {/* Card Tab Content */}
-              {paymentTab === 'card' && (
+              {paymentTab === "card" && (
                 <div className="space-y-4">
                   {!showOtpScreen ? (
                     <div className="space-y-3 animate-in fade-in">
                       <div className="space-y-1">
-                        <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">Cardholder Name</label>
-                        <input 
-                          required 
-                          type="text" 
+                        <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">
+                          Cardholder Name
+                        </label>
+                        <input
+                          required
+                          type="text"
                           placeholder="ANANYA RAO"
                           value={cardName}
                           onChange={(e) => setCardName(e.target.value.toUpperCase())}
@@ -937,15 +989,20 @@ function BookingModal({
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">Card Number</label>
-                        <input 
-                          required 
-                          type="text" 
+                        <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">
+                          Card Number
+                        </label>
+                        <input
+                          required
+                          type="text"
                           maxLength={19}
                           placeholder="4111 1111 1111 1111"
                           value={cardNo}
                           onChange={(e) => {
-                            const v = e.target.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
+                            const v = e.target.value
+                              .replace(/\D/g, "")
+                              .replace(/(.{4})/g, "$1 ")
+                              .trim();
                             setCardNo(v);
                           }}
                           className="w-full border border-foreground/10 bg-transparent px-3 py-2 text-xs tracking-widest outline-none focus:border-bronze font-mono"
@@ -953,38 +1010,46 @@ function BookingModal({
                       </div>
                       <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
-                          <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">Expiry (MM/YY)</label>
-                          <input 
-                            required 
-                            type="text" 
+                          <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">
+                            Expiry (MM/YY)
+                          </label>
+                          <input
+                            required
+                            type="text"
                             maxLength={5}
                             placeholder="12/28"
                             value={cardExpiry}
                             onChange={(e) => {
-                              let v = e.target.value.replace(/\D/g, '');
-                              if (v.length > 2) v = v.substring(0, 2) + '/' + v.substring(2, 4);
+                              let v = e.target.value.replace(/\D/g, "");
+                              if (v.length > 2) v = v.substring(0, 2) + "/" + v.substring(2, 4);
                               setCardExpiry(v);
                             }}
                             className="w-full border border-foreground/10 bg-transparent px-3 py-2 text-xs tracking-widest outline-none focus:border-bronze font-mono"
                           />
                         </div>
                         <div className="space-y-1">
-                          <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">CVV</label>
-                          <input 
-                            required 
-                            type="password" 
+                          <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">
+                            CVV
+                          </label>
+                          <input
+                            required
+                            type="password"
                             maxLength={3}
                             placeholder="***"
                             value={cardCvv}
-                            onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, ''))}
+                            onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, ""))}
                             className="w-full border border-foreground/10 bg-transparent px-3 py-2 text-xs tracking-widest outline-none focus:border-bronze font-mono"
                           />
                         </div>
                       </div>
-                      <button 
+                      <button
                         onClick={(e) => {
                           e.preventDefault();
-                          if (cardNo.replace(/\s/g, "").length < 16 || cardExpiry.length < 5 || cardCvv.length < 3) {
+                          if (
+                            cardNo.replace(/\s/g, "").length < 16 ||
+                            cardExpiry.length < 5 ||
+                            cardCvv.length < 3
+                          ) {
                             toast.error("Invalid card details");
                             return;
                           }
@@ -1017,24 +1082,24 @@ function BookingModal({
                           Enter the 6-digit OTP sent to your mobile phone to complete card deposit.
                         </p>
                       </div>
-                      <input 
-                        required 
-                        type="text" 
+                      <input
+                        required
+                        type="text"
                         maxLength={6}
                         placeholder="123456"
                         value={otpVal}
-                        onChange={(e) => setOtpVal(e.target.value.replace(/\D/g, ''))}
+                        onChange={(e) => setOtpVal(e.target.value.replace(/\D/g, ""))}
                         className="mx-auto w-32 border border-foreground/10 bg-transparent px-3 py-2 text-center text-sm tracking-[0.4em] outline-none focus:border-bronze font-mono font-bold"
                       />
                       <div className="flex gap-2 justify-center mt-4 font-bold">
-                        <button 
-                          type="button" 
+                        <button
+                          type="button"
                           onClick={() => setShowOtpScreen(false)}
                           className="px-4 py-2.5 border border-foreground/10 text-[9px] uppercase tracking-widest font-bold"
                         >
                           Back
                         </button>
-                        <button 
+                        <button
                           disabled={verifyingOtp}
                           onClick={async () => {
                             if (otpVal.length < 4) {
@@ -1042,7 +1107,8 @@ function BookingModal({
                               return;
                             }
                             setVerifyingOtp(true);
-                            const mockPayId = "rzp_mock_card_" + Math.random().toString(36).substring(2);
+                            const mockPayId =
+                              "rzp_mock_card_" + Math.random().toString(36).substring(2);
                             const { error } = await supabase
                               .from("bookings")
                               .update({
@@ -1071,7 +1137,10 @@ function BookingModal({
                               customer_phone: phone,
                               notes: notes || null,
                             };
-                            sessionStorage.setItem(`bloom-booking-${createdBookingId!}`, JSON.stringify(stored));
+                            sessionStorage.setItem(
+                              `bloom-booking-${createdBookingId!}`,
+                              JSON.stringify(stored),
+                            );
                             navigate({ to: "/booking/$id", params: { id: createdBookingId! } });
                           }}
                           className="px-5 py-2.5 bg-bronze text-white text-[9px] uppercase tracking-widest font-bold hover:bg-foreground hover:text-background transition-colors flex items-center gap-1.5"
@@ -1242,7 +1311,10 @@ function SpecialRequestModal({
                   <Calendar className="h-4 w-4 text-warm-gray" />
                 </button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0 rounded-none border border-foreground/10 bg-background shadow-lift" align="start">
+              <PopoverContent
+                className="w-auto p-0 rounded-none border border-foreground/10 bg-background shadow-lift"
+                align="start"
+              >
                 <UiCalendar
                   mode="single"
                   selected={date ? new Date(date + "T00:00:00") : undefined}

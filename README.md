@@ -14,12 +14,12 @@ Bloom is an end-to-end luxury salon management and booking platform for Bangalor
 
 ## 🏗️ Architecture & Portals
 
-| Portal | Description |
-|---|---|
+| Portal                            | Description                                                                                      |
+| --------------------------------- | ------------------------------------------------------------------------------------------------ |
 | **🛍️ Client Discovery & Booking** | Browse verified luxury salons, pick services, and book via AI Concierge or direct slot selection |
-| **🏢 Salon Owner Admin** | Manage services, hours, holidays, bookings, revenue analytics, and POS billing |
-| **🖨️ Point of Sale (POS)** | Walk-in register with Razorpay integration and luxury thermal receipt printing |
-| **⚙️ HQ Super Admin** | Approve salons, moderate ownership claims, and manage platform settings |
+| **🏢 Salon Owner Admin**          | Manage services, hours, holidays, bookings, revenue analytics, and POS billing                   |
+| **🖨️ Point of Sale (POS)**        | Walk-in register with Razorpay integration and luxury thermal receipt printing                   |
+| **⚙️ HQ Super Admin**             | Approve salons, moderate ownership claims, and manage platform settings                          |
 
 ---
 
@@ -36,12 +36,14 @@ Bloom is an end-to-end luxury salon management and booking platform for Bangalor
 ## 🚀 Getting Started
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/Tusharjain-19/Bloom.git
 cd Bloom
 ```
 
 ### 2. Install Dependencies
+
 ```bash
 npm install
 ```
@@ -49,16 +51,19 @@ npm install
 ### 3. Set Up Environment Variables
 
 Copy the example file and fill in your own keys:
+
 ```bash
 cp .env.example .env
 ```
 
 You will need:
+
 - **Supabase** project URL and anon key → [supabase.com](https://supabase.com)
 - **Groq** API key → [console.groq.com](https://console.groq.com)
 - **Razorpay** test keys → [dashboard.razorpay.com](https://dashboard.razorpay.com)
 
 ### 4. Run the Development Server
+
 ```bash
 npm run dev
 ```
@@ -73,12 +78,12 @@ Run the migration SQL files in `/supabase/migrations/` in your Supabase SQL Edit
 
 Bloom integrates Razorpay in **Test Mode**. Use the following test card to simulate payments in the POS or booking checkout:
 
-| Field | Value |
-|---|---|
-| **Card Number** | `4100 2800 0000 1007` |
+| Field           | Value                          |
+| --------------- | ------------------------------ |
+| **Card Number** | `4100 2800 0000 1007`          |
 | **Expiry Date** | Any future date (e.g. `12/29`) |
-| **CVV** | Any 3 digits (e.g. `123`) |
-| **Name** | Any name |
+| **CVV**         | Any 3 digits (e.g. `123`)      |
+| **Name**        | Any name                       |
 
 ---
 

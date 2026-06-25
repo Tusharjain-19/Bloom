@@ -55,7 +55,7 @@ export const createRazorpayOrder = createServerFn({ method: "POST" })
     z.object({
       amount: z.number().positive(), // in INR
       receipt: z.string().min(1),
-    })
+    }),
   )
   .handler(async ({ data }) => {
     try {
@@ -96,7 +96,7 @@ export const createRazorpayQR = createServerFn({ method: "POST" })
       bookingId: z.string().optional(),
       salonId: z.string().optional(),
       fallbackUpiId: z.string().optional(), // For direct UPI fallback
-    })
+    }),
   )
   .handler(async ({ data }) => {
     try {
@@ -115,7 +115,9 @@ export const createRazorpayQR = createServerFn({ method: "POST" })
             qrCodeId: "fallback_" + Math.random().toString(36).substring(2),
           };
         }
-        throw new Error("Razorpay credentials are not configured and no fallback UPI ID is available.");
+        throw new Error(
+          "Razorpay credentials are not configured and no fallback UPI ID is available.",
+        );
       }
 
       const auth = getAuthHeader();
@@ -189,7 +191,7 @@ export const checkRazorpayPaymentStatus = createServerFn({ method: "POST" })
   .inputValidator(
     z.object({
       qrCodeId: z.string().min(1),
-    })
+    }),
   )
   .handler(async ({ data }) => {
     try {
@@ -199,12 +201,15 @@ export const checkRazorpayPaymentStatus = createServerFn({ method: "POST" })
       }
 
       const auth = getAuthHeader();
-      const response = await fetch(`https://api.razorpay.com/v1/qr_codes/${data.qrCodeId}/payments`, {
-        method: "GET",
-        headers: {
-          Authorization: auth,
+      const response = await fetch(
+        `https://api.razorpay.com/v1/qr_codes/${data.qrCodeId}/payments`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: auth,
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         const errText = await response.text();
@@ -214,7 +219,7 @@ export const checkRazorpayPaymentStatus = createServerFn({ method: "POST" })
       const payments = await response.json();
       // Check if there is any payment that is authorized/captured
       const successfulPayment = (payments.items || []).find(
-        (p: any) => p.status === "captured" || p.status === "authorized"
+        (p: any) => p.status === "captured" || p.status === "authorized",
       );
 
       if (successfulPayment) {

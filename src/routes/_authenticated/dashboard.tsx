@@ -19,7 +19,13 @@ import {
   Sliders,
   Image as ImageIcon,
 } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar as UiCalendar } from "@/components/ui/calendar";
 
@@ -423,7 +429,11 @@ function Dashboard() {
                   </SelectTrigger>
                   <SelectContent className="rounded-none border border-foreground/10 bg-background shadow-lift">
                     {allSalons.map((s) => (
-                      <SelectItem key={s.id} value={s.slug} className="text-sm py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze rounded-none">
+                      <SelectItem
+                        key={s.id}
+                        value={s.slug}
+                        className="text-sm py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze rounded-none"
+                      >
                         {s.name} · {s.neighborhood}
                       </SelectItem>
                     ))}
@@ -545,7 +555,13 @@ function Dashboard() {
                           <div className="flex-1 min-w-0">
                             <div className="font-semibold text-[15px]">{b.service_name}</div>
                             <div className="text-xs text-warm-gray mt-1 flex flex-wrap items-center gap-1.5">
-                              <span>Guest: <span className="font-medium text-foreground">{b.customer_name}</span> · {b.customer_phone}</span>
+                              <span>
+                                Guest:{" "}
+                                <span className="font-medium text-foreground">
+                                  {b.customer_name}
+                                </span>{" "}
+                                · {b.customer_phone}
+                              </span>
                               {b.advance_paid && b.advance_paid > 0 ? (
                                 <span className="text-bronze font-bold bg-bronze/5 border border-bronze/10 px-1.5 py-0.5 rounded-none uppercase tracking-wider text-[8px]">
                                   Paid Deposit: ₹{b.advance_paid} ({b.payment_method})
@@ -713,20 +729,28 @@ function Dashboard() {
                           <button className="flex-1 text-left bg-background border border-foreground/10 px-4 py-2.5 text-[13px] outline-none focus:border-bronze rounded-none cursor-pointer flex justify-between items-center hover:border-foreground/30 transition-colors">
                             <span className="text-foreground">
                               {newHolidayDate
-                                ? new Date(newHolidayDate + "T00:00:00").toLocaleDateString("en-IN", {
-                                    day: "numeric",
-                                    month: "short",
-                                    year: "numeric",
-                                  })
+                                ? new Date(newHolidayDate + "T00:00:00").toLocaleDateString(
+                                    "en-IN",
+                                    {
+                                      day: "numeric",
+                                      month: "short",
+                                      year: "numeric",
+                                    },
+                                  )
                                 : "Select a date..."}
                             </span>
                             <Calendar className="h-4 w-4 text-warm-gray" />
                           </button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 rounded-none border border-foreground/10 bg-background shadow-lift" align="start">
+                        <PopoverContent
+                          className="w-auto p-0 rounded-none border border-foreground/10 bg-background shadow-lift"
+                          align="start"
+                        >
                           <UiCalendar
                             mode="single"
-                            selected={newHolidayDate ? new Date(newHolidayDate + "T00:00:00") : undefined}
+                            selected={
+                              newHolidayDate ? new Date(newHolidayDate + "T00:00:00") : undefined
+                            }
                             onSelect={(date) => {
                               if (date) {
                                 const yyyy = date.getFullYear();

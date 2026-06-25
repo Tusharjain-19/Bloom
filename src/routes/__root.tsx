@@ -734,8 +734,12 @@ function FloatingConcierge() {
           ...prev,
           customerName: data.session.user.user_metadata?.full_name || "",
         }));
-        const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", data.session.user.id);
-        if (roles?.some(r => r.role === "salon_owner" || r.role === "admin")) setShouldHideBot(true);
+        const { data: roles } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", data.session.user.id);
+        if (roles?.some((r) => r.role === "salon_owner" || r.role === "admin"))
+          setShouldHideBot(true);
       }
     });
 
@@ -745,8 +749,11 @@ function FloatingConcierge() {
           ...prev,
           customerName: sess.user.user_metadata?.full_name || prev.customerName,
         }));
-        const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", sess.user.id);
-        if (roles?.some(r => r.role === "salon_owner" || r.role === "admin")) {
+        const { data: roles } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", sess.user.id);
+        if (roles?.some((r) => r.role === "salon_owner" || r.role === "admin")) {
           setShouldHideBot(true);
         } else {
           setShouldHideBot(false);
@@ -809,8 +816,7 @@ function FloatingConcierge() {
     if (!botState.selectedSalon) return;
     setLoading(true);
     try {
-      const { data, error } = await (supabase
-        .from("booking_slots" as any) as any)
+      const { data, error } = await (supabase.from("booking_slots" as any) as any)
         .select("booking_date,booking_time,status")
         .eq("salon_id", botState.selectedSalon.id)
         .neq("status", "cancelled")
@@ -916,30 +922,29 @@ function FloatingConcierge() {
       return;
     }
 
-    const bookingId = typeof window !== "undefined" && window.crypto?.randomUUID
-      ? window.crypto.randomUUID()
-      : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-          const r = (Math.random() * 16) | 0;
-          const v = c === "x" ? r : (r & 0x3) | 0x8;
-          return v.toString(16);
-        });
+    const bookingId =
+      typeof window !== "undefined" && window.crypto?.randomUUID
+        ? window.crypto.randomUUID()
+        : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+            const r = (Math.random() * 16) | 0;
+            const v = c === "x" ? r : (r & 0x3) | 0x8;
+            return v.toString(16);
+          });
 
     setLoading(true);
     try {
-      const { error } = await supabase
-        .from("bookings")
-        .insert({
-          id: bookingId,
-          salon_id: botState.selectedSalon.id,
-          service_name: botState.selectedService.name,
-          service_price: botState.selectedService.price,
-          booking_date: botState.selectedDate,
-          booking_time: botState.selectedTime,
-          customer_name: botState.customerName,
-          customer_phone: botState.customerPhone,
-          notes: botState.notes || null,
-          status: "pending",
-        });
+      const { error } = await supabase.from("bookings").insert({
+        id: bookingId,
+        salon_id: botState.selectedSalon.id,
+        service_name: botState.selectedService.name,
+        service_price: botState.selectedService.price,
+        booking_date: botState.selectedDate,
+        booking_time: botState.selectedTime,
+        customer_name: botState.customerName,
+        customer_phone: botState.customerPhone,
+        notes: botState.notes || null,
+        status: "pending",
+      });
 
       if (error) {
         throw error;
@@ -1393,7 +1398,10 @@ function DateSelectorWidget({ onSelect }: { onSelect: (dateStr: string) => void 
                 <CalendarIcon className="h-3.5 w-3.5 text-warm-gray" />
               </button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0 rounded-none border border-foreground/10 bg-background shadow-lift" align="start">
+            <PopoverContent
+              className="w-auto p-0 rounded-none border border-foreground/10 bg-background shadow-lift"
+              align="start"
+            >
               <UiCalendar
                 mode="single"
                 selected={customDate ? new Date(customDate + "T00:00:00") : undefined}

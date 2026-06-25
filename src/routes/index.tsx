@@ -1,5 +1,11 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -132,7 +138,11 @@ function Landing() {
                     </SelectTrigger>
                     <SelectContent className="rounded-none border border-foreground/10 bg-background shadow-lift">
                       {allSalons.map((s) => (
-                        <SelectItem key={s.id} value={s.slug} className="text-[13px] py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze rounded-none">
+                        <SelectItem
+                          key={s.id}
+                          value={s.slug}
+                          className="text-[13px] py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze rounded-none"
+                        >
                           {s.name} ({s.neighborhood})
                         </SelectItem>
                       ))}
@@ -154,7 +164,11 @@ function Landing() {
                     </SelectTrigger>
                     <SelectContent className="rounded-none border border-foreground/10 bg-background shadow-lift">
                       {services.map((svc) => (
-                        <SelectItem key={svc.name} value={svc.name} className="text-[13px] py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze rounded-none">
+                        <SelectItem
+                          key={svc.name}
+                          value={svc.name}
+                          className="text-[13px] py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze rounded-none"
+                        >
                           {svc.name} · ₹{svc.price.toLocaleString("en-IN")}
                         </SelectItem>
                       ))}

@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Sparkles } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -159,14 +165,54 @@ function AuthPage() {
                   <SelectValue placeholder="Select a salon..." />
                 </SelectTrigger>
                 <SelectContent className="rounded-none border border-foreground/10 bg-background shadow-lift">
-                  <SelectItem value="lumiere@bloom.in" className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze">Lumière Atelier (Indiranagar)</SelectItem>
-                  <SelectItem value="maison@bloom.in" className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze">Maison de Beauté (Koramangala)</SelectItem>
-                  <SelectItem value="emerald@bloom.in" className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze">Emerald Nail & Beauty Bar (HSR)</SelectItem>
-                  <SelectItem value="vermilion@bloom.in" className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze">Vermilion Bridal (Jayanagar)</SelectItem>
-                  <SelectItem value="forge@bloom.in" className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze">Forge Men's Lounge (Whitefield)</SelectItem>
-                  <SelectItem value="aranya@bloom.in" className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze">Aranya Ayurveda Spa (JP Nagar)</SelectItem>
-                  <SelectItem value="noir@bloom.in" className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze">Noir Hair Studio (MG Road)</SelectItem>
-                  <SelectItem value="rose@bloom.in" className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze">Rose Petal Lounge (Kalyan Nagar)</SelectItem>
+                  <SelectItem
+                    value="lumiere@bloom.in"
+                    className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze"
+                  >
+                    Lumière Atelier (Indiranagar)
+                  </SelectItem>
+                  <SelectItem
+                    value="maison@bloom.in"
+                    className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze"
+                  >
+                    Maison de Beauté (Koramangala)
+                  </SelectItem>
+                  <SelectItem
+                    value="emerald@bloom.in"
+                    className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze"
+                  >
+                    Emerald Nail & Beauty Bar (HSR)
+                  </SelectItem>
+                  <SelectItem
+                    value="vermilion@bloom.in"
+                    className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze"
+                  >
+                    Vermilion Bridal (Jayanagar)
+                  </SelectItem>
+                  <SelectItem
+                    value="forge@bloom.in"
+                    className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze"
+                  >
+                    Forge Men's Lounge (Whitefield)
+                  </SelectItem>
+                  <SelectItem
+                    value="aranya@bloom.in"
+                    className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze"
+                  >
+                    Aranya Ayurveda Spa (JP Nagar)
+                  </SelectItem>
+                  <SelectItem
+                    value="noir@bloom.in"
+                    className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze"
+                  >
+                    Noir Hair Studio (MG Road)
+                  </SelectItem>
+                  <SelectItem
+                    value="rose@bloom.in"
+                    className="text-xs py-2 cursor-pointer focus:bg-bronze/5 focus:text-bronze"
+                  >
+                    Rose Petal Lounge (Kalyan Nagar)
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>

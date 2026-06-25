@@ -20,7 +20,10 @@ function AdminLayout() {
         >
           <ArrowLeft className="h-3.5 w-3.5" /> Back to site
         </Link>
-        <Link to="/dashboard" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+        <Link
+          to="/dashboard"
+          className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+        >
           My account →
         </Link>
       </div>
@@ -29,7 +32,9 @@ function AdminLayout() {
         {/* Top Control Center Navigation */}
         <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-foreground/10 pb-5">
           <div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-bronze font-bold">Admin</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-bronze font-bold">
+              Admin
+            </div>
             <h2 className="mt-1 font-display text-3xl">Control Center</h2>
           </div>
           <nav className="flex flex-wrap gap-2 text-sm">
@@ -86,7 +91,9 @@ function TopLink({
       <span className="text-bronze">{icon}</span>
       <div className="text-left">
         <span className="block font-bold tracking-widest text-[10px] uppercase">{label}</span>
-        <span className="block text-[8px] tracking-wider text-muted-foreground uppercase mt-0.5">{hint}</span>
+        <span className="block text-[8px] tracking-wider text-muted-foreground uppercase mt-0.5">
+          {hint}
+        </span>
       </div>
     </Link>
   );

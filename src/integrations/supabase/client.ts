@@ -61,7 +61,7 @@ function createSupabaseClient() {
                   newOptions.headers = clonedHeaders;
                 } else if (Array.isArray(newOptions.headers)) {
                   newOptions.headers = newOptions.headers.filter(
-                    ([h]) => h.toLowerCase() !== "authorization"
+                    ([h]) => h.toLowerCase() !== "authorization",
                   );
                 } else if (typeof newOptions.headers === "object") {
                   const cleanedHeaders = { ...newOptions.headers } as Record<string, string>;

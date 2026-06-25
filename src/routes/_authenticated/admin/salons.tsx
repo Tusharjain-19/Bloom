@@ -68,7 +68,15 @@ type SpecialReq = {
   created_at: string;
 };
 
-type Tab = "bookings" | "profile" | "services" | "hours" | "holidays" | "requests" | "sales" | "billing";
+type Tab =
+  | "bookings"
+  | "profile"
+  | "services"
+  | "hours"
+  | "holidays"
+  | "requests"
+  | "sales"
+  | "billing";
 
 function SalonsPanel() {
   const { user, isAdmin } = useAuth();
@@ -154,8 +162,12 @@ function SalonsPanel() {
                     alt={s.name}
                   />
                   <div className="min-w-0 flex-1">
-                    <div className="truncate text-xs font-semibold uppercase tracking-wider">{s.name}</div>
-                    <div className="truncate text-[10px] text-muted-foreground uppercase tracking-wider mt-0.5">{s.neighborhood}</div>
+                    <div className="truncate text-xs font-semibold uppercase tracking-wider">
+                      {s.name}
+                    </div>
+                    <div className="truncate text-[10px] text-muted-foreground uppercase tracking-wider mt-0.5">
+                      {s.neighborhood}
+                    </div>
                   </div>
                   <StatusBadge status={s.status ?? "approved"} published={s.published ?? true} />
                 </button>
@@ -205,7 +217,12 @@ function SalonDetail({ salon, onChange }: { salon: Salon; onChange: () => void }
     },
     { id: "requests", label: "Special requests", icon: <Inbox className="h-3.5 w-3.5" /> },
     { id: "sales", label: "Sales", icon: <TrendingUp className="h-3.5 w-3.5" /> },
-    { id: "billing", label: "Billing / POS", icon: <Printer className="h-3.5 w-3.5" />, disabled: !approved },
+    {
+      id: "billing",
+      label: "Billing / POS",
+      icon: <Printer className="h-3.5 w-3.5" />,
+      disabled: !approved,
+    },
   ];
 
   return (
@@ -241,7 +258,8 @@ function SalonDetail({ salon, onChange }: { salon: Salon; onChange: () => void }
         {/* Status banner */}
         {status === "pending" && (
           <div className="border-t border-foreground/8 bg-amber-500/5 px-6 py-3 text-xs text-amber-700 font-medium">
-            ⏳ Awaiting HQ review. Once approved you'll be able to customize your full profile, services and hours.
+            ⏳ Awaiting HQ review. Once approved you'll be able to customize your full profile,
+            services and hours.
           </div>
         )}
         {status === "rejected" && (
@@ -294,7 +312,11 @@ function StatusBadge({ status, published }: { status: string; published: boolean
       icon: <Clock4 className="h-2.5 w-2.5" />,
     },
     approved: published
-      ? { c: "border-bronze/30 text-bronze bg-bronze/5", t: "Live", icon: <CheckCircle2 className="h-2.5 w-2.5" /> }
+      ? {
+          c: "border-bronze/30 text-bronze bg-bronze/5",
+          t: "Live",
+          icon: <CheckCircle2 className="h-2.5 w-2.5" />,
+        }
       : {
           c: "border-foreground/10 text-muted-foreground bg-foreground/5",
           t: "Draft",
@@ -395,7 +417,10 @@ function BookingsTab({ salonId }: { salonId: string }) {
           </h3>
           <div className="space-y-4">
             {Object.entries(timeGroups).map(([time, bookings]) => (
-              <div key={time} className="rounded-none border border-foreground/8 bg-surface-warm/30 p-5">
+              <div
+                key={time}
+                className="rounded-none border border-foreground/8 bg-surface-warm/30 p-5"
+              >
                 <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-bronze">
                   <Clock4 className="h-4 w-4" /> {time} ({bookings.length} bookings)
                 </div>
@@ -406,9 +431,13 @@ function BookingsTab({ salonId }: { salonId: string }) {
                       className="flex flex-wrap items-center gap-4 py-4 first:pt-4 last:pb-0"
                     >
                       <div className="min-w-0 flex-1">
-                        <div className="text-xs font-semibold uppercase tracking-wider">{b.service_name}</div>
+                        <div className="text-xs font-semibold uppercase tracking-wider">
+                          {b.service_name}
+                        </div>
                         <div className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1 flex flex-wrap items-center gap-2">
-                          <span>{b.customer_name} · {b.customer_phone}</span>
+                          <span>
+                            {b.customer_name} · {b.customer_phone}
+                          </span>
                           {b.advance_paid && b.advance_paid > 0 ? (
                             <span className="text-bronze font-bold bg-bronze/5 border border-bronze/10 px-1.5 py-0.5 rounded-none uppercase tracking-wider text-[8px]">
                               Paid Deposit: ₹{b.advance_paid} ({b.payment_method})
@@ -627,16 +656,25 @@ function ServicesTab({ salon, onChange }: { salon: Salon; onChange: () => void }
     <div className="space-y-4">
       <div className="divide-y divide-foreground/8 rounded-none border border-foreground/8">
         {list.length === 0 && (
-          <div className="p-5 text-xs text-muted-foreground uppercase tracking-wider">No services yet.</div>
+          <div className="p-5 text-xs text-muted-foreground uppercase tracking-wider">
+            No services yet.
+          </div>
         )}
         {list.map((s, i) => (
           <div key={i} className="flex items-center gap-4 p-4">
             <div className="flex-1">
               <div className="text-xs font-semibold uppercase tracking-wider">{s.name}</div>
-              <div className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">{s.duration}</div>
+              <div className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">
+                {s.duration}
+              </div>
             </div>
-            <div className="font-display text-sm tracking-wide">₹{s.price.toLocaleString("en-IN")}</div>
-            <button onClick={() => remove(i)} className="text-red-600 hover:text-red-800 transition-colors p-1">
+            <div className="font-display text-sm tracking-wide">
+              ₹{s.price.toLocaleString("en-IN")}
+            </div>
+            <button
+              onClick={() => remove(i)}
+              className="text-red-600 hover:text-red-800 transition-colors p-1"
+            >
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
@@ -663,7 +701,10 @@ function ServicesTab({ salon, onChange }: { salon: Salon; onChange: () => void }
           onChange={(e) => setDraft({ ...draft, duration: e.target.value })}
           className="rounded-none border border-foreground/8 bg-background px-3 py-2 text-xs uppercase tracking-wider"
         />
-        <button onClick={add} className="rounded-none bg-foreground hover:bg-bronze hover:text-white px-5 py-2 text-[10px] uppercase tracking-widest font-bold text-background transition-colors duration-300">
+        <button
+          onClick={add}
+          className="rounded-none bg-foreground hover:bg-bronze hover:text-white px-5 py-2 text-[10px] uppercase tracking-widest font-bold text-background transition-colors duration-300"
+        >
           Add
         </button>
       </div>
@@ -827,7 +868,9 @@ function HolidaysTab({ salon, onChange }: { salon: Salon; onChange: () => void }
     <div className="space-y-4">
       <div className="rounded-none border border-foreground/8">
         {list.length === 0 && (
-          <div className="p-5 text-xs text-muted-foreground uppercase tracking-wider">No holidays set.</div>
+          <div className="p-5 text-xs text-muted-foreground uppercase tracking-wider">
+            No holidays set.
+          </div>
         )}
         <div className="divide-y divide-foreground/8">
           {list.map((h) => (
@@ -870,7 +913,10 @@ function HolidaysTab({ salon, onChange }: { salon: Salon; onChange: () => void }
               <Calendar className="h-4 w-4 text-warm-gray" />
             </button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto p-0 rounded-none border border-foreground/10 bg-background shadow-lift" align="start">
+          <PopoverContent
+            className="w-auto p-0 rounded-none border border-foreground/10 bg-background shadow-lift"
+            align="start"
+          >
             <UiCalendar
               mode="single"
               selected={date ? new Date(date + "T00:00:00") : undefined}
@@ -937,7 +983,10 @@ function RequestsTab({ salonId }: { salonId: string }) {
   return (
     <div className="space-y-3">
       {list.map((r) => (
-        <div key={r.id} className="rounded-none border border-foreground/8 p-5 bg-card/20 hover:bg-card/40 transition-colors">
+        <div
+          key={r.id}
+          className="rounded-none border border-foreground/8 p-5 bg-card/20 hover:bg-card/40 transition-colors"
+        >
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <div className="text-xs font-semibold uppercase tracking-wider">
@@ -962,7 +1011,9 @@ function RequestsTab({ salonId }: { salonId: string }) {
               {r.status}
             </span>
           </div>
-          <p className="mt-4 whitespace-pre-wrap text-xs leading-relaxed text-foreground/80">{r.message}</p>
+          <p className="mt-4 whitespace-pre-wrap text-xs leading-relaxed text-foreground/80">
+            {r.message}
+          </p>
           <div className="mt-4 flex gap-2">
             {r.status === "new" && (
               <button
@@ -1065,7 +1116,8 @@ function Inp({
   onChange: (v: string) => void;
   textarea?: boolean;
 }) {
-  const cls = "w-full rounded-none border border-foreground/8 bg-background px-3.5 py-2.5 text-xs uppercase tracking-wider outline-none focus:border-bronze transition-all duration-300";
+  const cls =
+    "w-full rounded-none border border-foreground/8 bg-background px-3.5 py-2.5 text-xs uppercase tracking-wider outline-none focus:border-bronze transition-all duration-300";
   return textarea ? (
     <textarea rows={4} value={value} onChange={(e) => onChange(e.target.value)} className={cls} />
   ) : (
@@ -1075,7 +1127,9 @@ function Inp({
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-none border border-foreground/8 bg-background p-5 shadow-none">
-      <div className="text-[9px] uppercase tracking-widest font-bold text-muted-foreground">{label}</div>
+      <div className="text-[9px] uppercase tracking-widest font-bold text-muted-foreground">
+        {label}
+      </div>
       <div className="mt-2 font-display text-2xl tracking-wide">{value}</div>
     </div>
   );
@@ -1090,7 +1144,7 @@ function Empty({ title, subtitle }: { title: string; subtitle: string }) {
 }
 
 function BillingTab({ salon, onChange }: { salon: Salon; onChange: () => void }) {
-  const [items, setItems] = useState<{name: string, price: number, qty: number}[]>([]);
+  const [items, setItems] = useState<{ name: string; price: number; qty: number }[]>([]);
   const [showSettings, setShowSettings] = useState(false);
   const [bookingAmount, setBookingAmount] = useState(salon.booking_amount || 0);
   const [businessDetails, setBusinessDetails] = useState({
@@ -1100,7 +1154,7 @@ function BillingTab({ salon, onChange }: { salon: Salon; onChange: () => void })
     address: salon.business_details?.address || salon.address || "",
   });
   const [collectingPayment, setCollectingPayment] = useState(false);
-  const [paidMethod, setPaidMethod] = useState<'cash' | 'upi' | 'card' | null>(null);
+  const [paidMethod, setPaidMethod] = useState<"cash" | "upi" | "card" | null>(null);
 
   useEffect(() => {
     if (items.length === 0) setPaidMethod(null);
@@ -1137,12 +1191,16 @@ function BillingTab({ salon, onChange }: { salon: Salon; onChange: () => void })
   };
 
   const printThermalReceipt = () => {
-    const printWindow = window.open('about:blank', 'PrintWindow', 'left=50000,top=50000,width=0,height=0');
+    const printWindow = window.open(
+      "about:blank",
+      "PrintWindow",
+      "left=50000,top=50000,width=0,height=0",
+    );
     if (!printWindow) {
       window.print();
       return;
     }
-    
+
     printWindow.document.write(`
       <html>
         <head>
@@ -1246,9 +1304,9 @@ function BillingTab({ salon, onChange }: { salon: Salon; onChange: () => void })
         <body>
           <div class="header text-center">
             <h2 class="font-display text-xl uppercase tracking-widest">${businessDetails.legal_name || salon.name}</h2>
-            ${businessDetails.address ? `<p class="text-xs uppercase tracking-widest">${businessDetails.address.replace(/\n/g, '<br/>')}</p>` : ''}
-            ${businessDetails.gst_number ? `<p class="text-xs uppercase tracking-widest">GSTIN: ${businessDetails.gst_number}</p>` : ''}
-            <p class="text-xs uppercase tracking-widest" style="margin-top: 8px;">${new Date().toLocaleString('en-IN')}</p>
+            ${businessDetails.address ? `<p class="text-xs uppercase tracking-widest">${businessDetails.address.replace(/\n/g, "<br/>")}</p>` : ""}
+            ${businessDetails.gst_number ? `<p class="text-xs uppercase tracking-widest">GSTIN: ${businessDetails.gst_number}</p>` : ""}
+            <p class="text-xs uppercase tracking-widest" style="margin-top: 8px;">${new Date().toLocaleString("en-IN")}</p>
           </div>
           
           <table>
@@ -1260,7 +1318,9 @@ function BillingTab({ salon, onChange }: { salon: Salon; onChange: () => void })
               </tr>
             </thead>
             <tbody>
-              ${items.map(item => `
+              ${items
+                .map(
+                  (item) => `
                 <tr>
                   <td>
                     <div class="item-name">${item.name}</div>
@@ -1268,7 +1328,9 @@ function BillingTab({ salon, onChange }: { salon: Salon; onChange: () => void })
                   <td class="text-center">${item.qty}</td>
                   <td class="text-right font-display tracking-wide">₹${(item.price * item.qty).toFixed(2)}</td>
                 </tr>
-              `).join('')}
+              `,
+                )
+                .join("")}
             </tbody>
           </table>
           
@@ -1311,7 +1373,9 @@ function BillingTab({ salon, onChange }: { salon: Salon; onChange: () => void })
       <div className="flex items-center justify-between print:hidden">
         <div>
           <h3 className="font-display text-xl tracking-wide">Point of Sale</h3>
-          <p className="text-xs text-muted-foreground mt-1">Generate and print bills for your clients.</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Generate and print bills for your clients.
+          </p>
         </div>
         <button
           onClick={() => setShowSettings(!showSettings)}
@@ -1325,16 +1389,29 @@ function BillingTab({ salon, onChange }: { salon: Salon; onChange: () => void })
         <div className="rounded-none border border-foreground/10 bg-surface-warm/30 p-5 space-y-4 print:hidden animate-in slide-in-from-top-2 fade-in">
           <h4 className="font-display text-lg">Compliance Settings</h4>
           <div className="grid sm:grid-cols-2 gap-4">
-            <Label>Legal Business Name
-              <Inp value={businessDetails.legal_name} onChange={(v) => setBusinessDetails({ ...businessDetails, legal_name: v })} />
+            <Label>
+              Legal Business Name
+              <Inp
+                value={businessDetails.legal_name}
+                onChange={(v) => setBusinessDetails({ ...businessDetails, legal_name: v })}
+              />
             </Label>
-            <Label>GST Number
-              <Inp value={businessDetails.gst_number} onChange={(v) => setBusinessDetails({ ...businessDetails, gst_number: v })} />
+            <Label>
+              GST Number
+              <Inp
+                value={businessDetails.gst_number}
+                onChange={(v) => setBusinessDetails({ ...businessDetails, gst_number: v })}
+              />
             </Label>
-            <Label>UPI ID
-              <Inp value={businessDetails.upi_id} onChange={(v) => setBusinessDetails({ ...businessDetails, upi_id: v })} />
+            <Label>
+              UPI ID
+              <Inp
+                value={businessDetails.upi_id}
+                onChange={(v) => setBusinessDetails({ ...businessDetails, upi_id: v })}
+              />
             </Label>
-            <Label>Booking Deposit Amount (₹)
+            <Label>
+              Booking Deposit Amount (₹)
               <input
                 type="number"
                 min={0}
@@ -1343,48 +1420,81 @@ function BillingTab({ salon, onChange }: { salon: Salon; onChange: () => void })
                 className="w-full rounded-none border border-foreground/8 bg-background px-3.5 py-2.5 text-xs outline-none focus:border-bronze transition-all duration-300 mt-1"
               />
             </Label>
-            <Label>Billing Address
-              <Inp value={businessDetails.address} onChange={(v) => setBusinessDetails({ ...businessDetails, address: v })} textarea />
+            <Label>
+              Billing Address
+              <Inp
+                value={businessDetails.address}
+                onChange={(v) => setBusinessDetails({ ...businessDetails, address: v })}
+                textarea
+              />
             </Label>
           </div>
-          <button onClick={saveSettings} className="rounded-none bg-bronze text-white px-5 py-2 text-[10px] uppercase tracking-widest font-bold">Save Settings</button>
+          <button
+            onClick={saveSettings}
+            className="rounded-none bg-bronze text-white px-5 py-2 text-[10px] uppercase tracking-widest font-bold"
+          >
+            Save Settings
+          </button>
         </div>
       )}
 
       <div className="grid lg:grid-cols-[1fr_350px] gap-8">
         {/* Services Selector - Hidden during print */}
         <div className="space-y-4 print:hidden">
-          <h4 className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">Select Services</h4>
+          <h4 className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">
+            Select Services
+          </h4>
           <div className="grid sm:grid-cols-2 gap-3">
-            {salon.services?.length > 0 ? salon.services.map((srv) => (
-              <button
-                key={srv.name}
-                onClick={() => addItem(srv)}
-                className="text-left p-4 border border-foreground/8 hover:border-bronze hover:bg-bronze/5 transition-colors rounded-none bg-card group"
-              >
-                <div className="flex justify-between items-center">
-                  <div className="font-medium text-sm group-hover:text-bronze transition-colors">{srv.name}</div>
-                  <Plus className="h-4 w-4 text-muted-foreground group-hover:text-bronze" />
-                </div>
-                <div className="text-xs text-muted-foreground mt-1">₹{srv.price}</div>
-              </button>
-            )) : <Empty title="No Services" subtitle="Add services in the Services tab first." />}
+            {salon.services?.length > 0 ? (
+              salon.services.map((srv) => (
+                <button
+                  key={srv.name}
+                  onClick={() => addItem(srv)}
+                  className="text-left p-4 border border-foreground/8 hover:border-bronze hover:bg-bronze/5 transition-colors rounded-none bg-card group"
+                >
+                  <div className="flex justify-between items-center">
+                    <div className="font-medium text-sm group-hover:text-bronze transition-colors">
+                      {srv.name}
+                    </div>
+                    <Plus className="h-4 w-4 text-muted-foreground group-hover:text-bronze" />
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-1">₹{srv.price}</div>
+                </button>
+              ))
+            ) : (
+              <Empty title="No Services" subtitle="Add services in the Services tab first." />
+            )}
           </div>
         </div>
 
         {/* Bill Preview - Visible during print */}
-        <div id="bill-preview" className="rounded-none border border-foreground/15 bg-white p-6 shadow-sm print:shadow-none print:border-none print:m-0 print:p-0">
+        <div
+          id="bill-preview"
+          className="rounded-none border border-foreground/15 bg-white p-6 shadow-sm print:shadow-none print:border-none print:m-0 print:p-0"
+        >
           {/* Bill Header */}
           <div className="text-center pb-4 border-b border-foreground/10 mb-4">
-            <h2 className="font-display text-2xl uppercase tracking-widest">{businessDetails.legal_name || salon.name}</h2>
-            {businessDetails.address && <p className="text-[10px] uppercase tracking-widest mt-1 text-muted-foreground whitespace-pre-wrap">{businessDetails.address}</p>}
-            {businessDetails.gst_number && <p className="text-[10px] uppercase tracking-widest mt-1 text-muted-foreground">GSTIN: {businessDetails.gst_number}</p>}
+            <h2 className="font-display text-2xl uppercase tracking-widest">
+              {businessDetails.legal_name || salon.name}
+            </h2>
+            {businessDetails.address && (
+              <p className="text-[10px] uppercase tracking-widest mt-1 text-muted-foreground whitespace-pre-wrap">
+                {businessDetails.address}
+              </p>
+            )}
+            {businessDetails.gst_number && (
+              <p className="text-[10px] uppercase tracking-widest mt-1 text-muted-foreground">
+                GSTIN: {businessDetails.gst_number}
+              </p>
+            )}
           </div>
 
           {/* Bill Items */}
           <div className="min-h-[200px]">
             {items.length === 0 ? (
-              <div className="text-center text-xs text-muted-foreground py-10 print:hidden">Bill is empty. Add services.</div>
+              <div className="text-center text-xs text-muted-foreground py-10 print:hidden">
+                Bill is empty. Add services.
+              </div>
             ) : (
               <table className="w-full text-xs">
                 <thead>
@@ -1396,13 +1506,23 @@ function BillingTab({ salon, onChange }: { salon: Salon; onChange: () => void })
                 </thead>
                 <tbody className="divide-y divide-border">
                   {items.map((item, idx) => (
-                    <tr key={idx} className="animate-in slide-in-from-bottom-2 fade-in fill-mode-both duration-300">
+                    <tr
+                      key={idx}
+                      className="animate-in slide-in-from-bottom-2 fade-in fill-mode-both duration-300"
+                    >
                       <td className="py-2">
                         <div className="font-medium">{item.name}</div>
-                        <button onClick={() => removeItem(item.name)} className="text-[9px] text-red-500 uppercase tracking-widest mt-0.5 print:hidden">Remove</button>
+                        <button
+                          onClick={() => removeItem(item.name)}
+                          className="text-[9px] text-red-500 uppercase tracking-widest mt-0.5 print:hidden"
+                        >
+                          Remove
+                        </button>
                       </td>
                       <td className="py-2 text-right">{item.qty}</td>
-                      <td className="py-2 text-right font-display tracking-widest">₹{item.price * item.qty}</td>
+                      <td className="py-2 text-right font-display tracking-widest">
+                        ₹{item.price * item.qty}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -1427,9 +1547,16 @@ function BillingTab({ salon, onChange }: { salon: Salon; onChange: () => void })
           </div>
           <div className="mt-8 pt-4 border-t border-dashed border-foreground/15 text-center text-[10px] uppercase tracking-widest text-muted-foreground">
             {paidMethod ? (
-              <p className="mb-2 text-foreground font-bold font-mono">✓ PAID VIA {paidMethod.toUpperCase()}</p>
+              <p className="mb-2 text-foreground font-bold font-mono">
+                ✓ PAID VIA {paidMethod.toUpperCase()}
+              </p>
             ) : (
-              businessDetails.upi_id && <p className="mb-2">Pay via UPI: <span className="font-bold text-foreground">{businessDetails.upi_id}</span></p>
+              businessDetails.upi_id && (
+                <p className="mb-2">
+                  Pay via UPI:{" "}
+                  <span className="font-bold text-foreground">{businessDetails.upi_id}</span>
+                </p>
+              )
             )}
             <p>Thank you for visiting!</p>
           </div>
@@ -1442,8 +1569,8 @@ function BillingTab({ salon, onChange }: { salon: Salon; onChange: () => void })
                   <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 text-center py-2.5 text-[9px] uppercase tracking-widest font-bold flex items-center justify-center gap-1.5 animate-in fade-in">
                     <Check className="h-3.5 w-3.5" /> Paid via {paidMethod}
                   </div>
-                  <button 
-                    onClick={printThermalReceipt} 
+                  <button
+                    onClick={printThermalReceipt}
                     className="w-full inline-flex justify-center items-center gap-2 rounded-none bg-foreground text-background px-5 py-3 text-[10px] uppercase tracking-widest font-bold hover:bg-bronze transition-colors duration-300"
                   >
                     <Printer className="h-3.5 w-3.5" /> Print Bill
@@ -1459,8 +1586,8 @@ function BillingTab({ salon, onChange }: { salon: Salon; onChange: () => void })
                   </button>
                 </>
               ) : (
-                <button 
-                  onClick={() => setCollectingPayment(true)} 
+                <button
+                  onClick={() => setCollectingPayment(true)}
                   className="w-full inline-flex justify-center items-center gap-2 rounded-none bg-bronze text-white px-5 py-3 text-[10px] uppercase tracking-widest font-bold hover:bg-foreground hover:text-background transition-colors duration-300"
                 >
                   <DollarSign className="h-3.5 w-3.5" /> Collect Payment
@@ -1480,7 +1607,7 @@ function BillingTab({ salon, onChange }: { salon: Salon; onChange: () => void })
           setPaidMethod(method);
         }}
       />
-      
+
       <style>{`
         @media print {
           body * {
@@ -1505,17 +1632,28 @@ function BillingTab({ salon, onChange }: { salon: Salon; onChange: () => void })
 }
 
 // ============== POS PAYMENT MODAL COMPONENT ==============
-function POSPaymentModal({ isOpen, onClose, amount, salon, onSuccess }: {
+function POSPaymentModal({
+  isOpen,
+  onClose,
+  amount,
+  salon,
+  onSuccess,
+}: {
   isOpen: boolean;
   onClose: () => void;
   amount: number;
   salon: Salon;
-  onSuccess: (method: 'cash' | 'upi' | 'card') => void;
+  onSuccess: (method: "cash" | "upi" | "card") => void;
 }) {
-  const [tab, setTab] = useState<'cash' | 'upi' | 'card'>('upi');
+  const [tab, setTab] = useState<"cash" | "upi" | "card">("upi");
   const [loadingQr, setLoadingQr] = useState(false);
-  const [qrData, setQrData] = useState<{imageUrl: string, upiString: string, qrCodeId: string, isFallback: boolean} | null>(null);
-  
+  const [qrData, setQrData] = useState<{
+    imageUrl: string;
+    upiString: string;
+    qrCodeId: string;
+    isFallback: boolean;
+  } | null>(null);
+
   // Card states
   const [cardNo, setCardNo] = useState("");
   const [cardName, setCardName] = useState("");
@@ -1528,7 +1666,7 @@ function POSPaymentModal({ isOpen, onClose, amount, salon, onSuccess }: {
 
   // Generate UPI QR Code when QR tab is selected
   useEffect(() => {
-    if (tab === 'upi' && isOpen) {
+    if (tab === "upi" && isOpen) {
       const getQR = async () => {
         setLoadingQr(true);
         try {
@@ -1539,7 +1677,7 @@ function POSPaymentModal({ isOpen, onClose, amount, salon, onSuccess }: {
               description: "POS Billing",
               salonId: salon.id,
               fallbackUpiId: salon.business_details?.upi_id,
-            }
+            },
           });
           if (res.success && res.imageUrl) {
             setQrData({
@@ -1563,13 +1701,13 @@ function POSPaymentModal({ isOpen, onClose, amount, salon, onSuccess }: {
 
   // Poll for QR Code Payment Status (only if not fallback direct UPI)
   useEffect(() => {
-    if (tab !== 'upi' || !qrData || qrData.isFallback || !isOpen) return;
+    if (tab !== "upi" || !qrData || qrData.isFallback || !isOpen) return;
     const interval = setInterval(async () => {
       try {
         const res = await checkRazorpayPaymentStatus({ data: { qrCodeId: qrData.qrCodeId } });
         if (res.success && res.paid) {
           toast.success("Payment Received! 🎉");
-          onSuccess('upi');
+          onSuccess("upi");
           onClose();
           clearInterval(interval);
         }
@@ -1605,7 +1743,7 @@ function POSPaymentModal({ isOpen, onClose, amount, salon, onSuccess }: {
     setTimeout(() => {
       setVerifyingOtp(false);
       toast.success("Card Authorized Successfully!");
-      onSuccess('card');
+      onSuccess("card");
       onClose();
     }, 1500);
   };
@@ -1613,40 +1751,52 @@ function POSPaymentModal({ isOpen, onClose, amount, salon, onSuccess }: {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-in fade-in">
       <div className="w-full max-w-md bg-background border border-foreground/10 p-6 md:p-8 relative shadow-2xl animate-in zoom-in-95 duration-200">
-        <button onClick={onClose} className="absolute right-6 top-6 text-[10px] uppercase tracking-[0.2em] font-semibold text-muted-foreground hover:text-foreground">Close</button>
-        
+        <button
+          onClick={onClose}
+          className="absolute right-6 top-6 text-[10px] uppercase tracking-[0.2em] font-semibold text-muted-foreground hover:text-foreground"
+        >
+          Close
+        </button>
+
         <h3 className="font-display text-2xl tracking-wide">Collect Payment</h3>
-        <p className="text-xs text-muted-foreground mt-1">Select a payment mode for ₹{amount.toFixed(2)}</p>
+        <p className="text-xs text-muted-foreground mt-1">
+          Select a payment mode for ₹{amount.toFixed(2)}
+        </p>
 
         {/* Tab Buttons */}
         <div className="grid grid-cols-3 gap-2 mt-6 border-b border-foreground/10 pb-4">
-          <button 
-            onClick={() => { setTab('upi'); setQrData(null); }}
-            className={`flex flex-col items-center justify-center p-3 border text-xs tracking-wider uppercase font-semibold transition-all ${tab === 'upi' ? 'border-bronze bg-bronze/5 text-bronze' : 'border-foreground/8 hover:bg-surface-warm'}`}
+          <button
+            onClick={() => {
+              setTab("upi");
+              setQrData(null);
+            }}
+            className={`flex flex-col items-center justify-center p-3 border text-xs tracking-wider uppercase font-semibold transition-all ${tab === "upi" ? "border-bronze bg-bronze/5 text-bronze" : "border-foreground/8 hover:bg-surface-warm"}`}
           >
             <QrCode className="h-4 w-4 mb-1.5" /> UPI QR
           </button>
-          <button 
-            onClick={() => setTab('card')}
-            className={`flex flex-col items-center justify-center p-3 border text-xs tracking-wider uppercase font-semibold transition-all ${tab === 'card' ? 'border-bronze bg-bronze/5 text-bronze' : 'border-foreground/8 hover:bg-surface-warm'}`}
+          <button
+            onClick={() => setTab("card")}
+            className={`flex flex-col items-center justify-center p-3 border text-xs tracking-wider uppercase font-semibold transition-all ${tab === "card" ? "border-bronze bg-bronze/5 text-bronze" : "border-foreground/8 hover:bg-surface-warm"}`}
           >
             <CreditCard className="h-4 w-4 mb-1.5" /> Card
           </button>
-          <button 
-            onClick={() => setTab('cash')}
-            className={`flex flex-col items-center justify-center p-3 border text-xs tracking-wider uppercase font-semibold transition-all ${tab === 'cash' ? 'border-bronze bg-bronze/5 text-bronze' : 'border-foreground/8 hover:bg-surface-warm'}`}
+          <button
+            onClick={() => setTab("cash")}
+            className={`flex flex-col items-center justify-center p-3 border text-xs tracking-wider uppercase font-semibold transition-all ${tab === "cash" ? "border-bronze bg-bronze/5 text-bronze" : "border-foreground/8 hover:bg-surface-warm"}`}
           >
             <DollarSign className="h-4 w-4 mb-1.5" /> Cash
           </button>
         </div>
 
         <div className="mt-6 min-h-[220px] flex flex-col justify-center">
-          {tab === 'upi' && (
+          {tab === "upi" && (
             <div className="text-center space-y-4">
               {loadingQr ? (
                 <div className="flex flex-col items-center justify-center py-8 space-y-3">
                   <Loader2 className="h-8 w-8 animate-spin text-bronze" />
-                  <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Generating UPI QR via Razorpay...</span>
+                  <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">
+                    Generating UPI QR via Razorpay...
+                  </span>
                 </div>
               ) : qrData ? (
                 <div className="flex flex-col items-center justify-center space-y-4 animate-in fade-in zoom-in-95">
@@ -1658,14 +1808,16 @@ function POSPaymentModal({ isOpen, onClose, amount, salon, onSuccess }: {
                       {qrData.isFallback ? "Direct Merchant UPI QR" : "Dynamic Razorpay UPI QR"}
                     </p>
                     <p className="text-[9px] text-muted-foreground uppercase tracking-wider font-medium max-w-[280px]">
-                      {qrData.isFallback ? "Scan with any UPI app to pay directly into bank account." : "Polling for payment. Scan with any UPI app to complete."}
+                      {qrData.isFallback
+                        ? "Scan with any UPI app to pay directly into bank account."
+                        : "Polling for payment. Scan with any UPI app to complete."}
                     </p>
                   </div>
                   {/* Simulate/Verify Payment Button for testing */}
-                  <button 
+                  <button
                     onClick={() => {
                       toast.success("POS Payment completed successfully! 🎉");
-                      onSuccess('upi');
+                      onSuccess("upi");
                       onClose();
                     }}
                     className="mt-2 inline-flex items-center gap-1.5 rounded-none bg-foreground text-background px-4 py-2 text-[9px] uppercase tracking-widest font-bold hover:bg-bronze hover:text-white transition-all duration-300"
@@ -1679,15 +1831,17 @@ function POSPaymentModal({ isOpen, onClose, amount, salon, onSuccess }: {
             </div>
           )}
 
-          {tab === 'card' && (
+          {tab === "card" && (
             <div className="space-y-4">
               {!showOtpScreen ? (
                 <form onSubmit={handleCardSubmit} className="space-y-3 animate-in fade-in">
                   <div className="space-y-1">
-                    <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">Cardholder Name</label>
-                    <input 
-                      required 
-                      type="text" 
+                    <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">
+                      Cardholder Name
+                    </label>
+                    <input
+                      required
+                      type="text"
                       placeholder="ANANYA RAO"
                       value={cardName}
                       onChange={(e) => setCardName(e.target.value.toUpperCase())}
@@ -1695,15 +1849,20 @@ function POSPaymentModal({ isOpen, onClose, amount, salon, onSuccess }: {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">Card Number</label>
-                    <input 
-                      required 
-                      type="text" 
+                    <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">
+                      Card Number
+                    </label>
+                    <input
+                      required
+                      type="text"
                       maxLength={19}
                       placeholder="4111 1111 1111 1111"
                       value={cardNo}
                       onChange={(e) => {
-                        const v = e.target.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
+                        const v = e.target.value
+                          .replace(/\D/g, "")
+                          .replace(/(.{4})/g, "$1 ")
+                          .trim();
                         setCardNo(v);
                       }}
                       className="w-full border border-foreground/10 bg-transparent px-3 py-2 text-xs tracking-widest outline-none focus:border-bronze font-mono"
@@ -1711,37 +1870,41 @@ function POSPaymentModal({ isOpen, onClose, amount, salon, onSuccess }: {
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
-                      <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">Expiry (MM/YY)</label>
-                      <input 
-                        required 
-                        type="text" 
+                      <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">
+                        Expiry (MM/YY)
+                      </label>
+                      <input
+                        required
+                        type="text"
                         maxLength={5}
                         placeholder="12/28"
                         value={cardExpiry}
                         onChange={(e) => {
-                          let v = e.target.value.replace(/\D/g, '');
-                          if (v.length > 2) v = v.substring(0, 2) + '/' + v.substring(2, 4);
+                          let v = e.target.value.replace(/\D/g, "");
+                          if (v.length > 2) v = v.substring(0, 2) + "/" + v.substring(2, 4);
                           setCardExpiry(v);
                         }}
                         className="w-full border border-foreground/10 bg-transparent px-3 py-2 text-xs tracking-widest outline-none focus:border-bronze font-mono"
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">CVV</label>
-                      <input 
-                        required 
-                        type="password" 
+                      <label className="text-[9px] uppercase tracking-wider font-semibold text-muted-foreground">
+                        CVV
+                      </label>
+                      <input
+                        required
+                        type="password"
                         maxLength={3}
                         placeholder="***"
                         value={cardCvv}
-                        onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, ''))}
+                        onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, ""))}
                         className="w-full border border-foreground/10 bg-transparent px-3 py-2 text-xs tracking-widest outline-none focus:border-bronze font-mono"
                       />
                     </div>
                   </div>
-                  <button 
+                  <button
                     disabled={processingCard}
-                    type="submit" 
+                    type="submit"
                     className="w-full rounded-none bg-foreground text-background py-3 mt-4 text-[10px] uppercase tracking-widest font-bold hover:bg-bronze hover:text-white transition-colors flex justify-center items-center gap-2"
                   >
                     {processingCard ? (
@@ -1754,7 +1917,10 @@ function POSPaymentModal({ isOpen, onClose, amount, salon, onSuccess }: {
                   </button>
                 </form>
               ) : (
-                <form onSubmit={handleOtpSubmit} className="space-y-4 text-center animate-in zoom-in-95 duration-200">
+                <form
+                  onSubmit={handleOtpSubmit}
+                  className="space-y-4 text-center animate-in zoom-in-95 duration-200"
+                >
                   <div className="mx-auto h-10 w-10 border border-foreground/10 bg-surface-warm flex items-center justify-center rounded-none text-bronze">
                     <CreditCard className="h-5 w-5" />
                   </div>
@@ -1764,24 +1930,24 @@ function POSPaymentModal({ isOpen, onClose, amount, salon, onSuccess }: {
                       Enter the 6-digit OTP sent to client's phone to complete card charge.
                     </p>
                   </div>
-                  <input 
-                    required 
-                    type="text" 
+                  <input
+                    required
+                    type="text"
                     maxLength={6}
                     placeholder="123456"
                     value={otpVal}
-                    onChange={(e) => setOtpVal(e.target.value.replace(/\D/g, ''))}
+                    onChange={(e) => setOtpVal(e.target.value.replace(/\D/g, ""))}
                     className="mx-auto w-32 border border-foreground/10 bg-transparent px-3 py-2 text-center text-sm tracking-[0.4em] outline-none focus:border-bronze font-mono font-bold"
                   />
                   <div className="flex gap-2 justify-center mt-4 font-bold">
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       onClick={() => setShowOtpScreen(false)}
                       className="px-4 py-2.5 border border-foreground/10 text-[9px] uppercase tracking-widest font-bold"
                     >
                       Back
                     </button>
-                    <button 
+                    <button
                       disabled={verifyingOtp}
                       type="submit"
                       className="px-5 py-2.5 bg-bronze text-white text-[9px] uppercase tracking-widest font-bold hover:bg-foreground hover:text-background transition-colors flex items-center gap-1.5"
@@ -1800,21 +1966,24 @@ function POSPaymentModal({ isOpen, onClose, amount, salon, onSuccess }: {
             </div>
           )}
 
-          {tab === 'cash' && (
+          {tab === "cash" && (
             <div className="text-center space-y-6 py-4 animate-in fade-in">
               <div className="mx-auto h-12 w-12 border border-emerald-200 bg-emerald-50/50 flex items-center justify-center rounded-none text-emerald-700">
                 <DollarSign className="h-6 w-6" />
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] uppercase tracking-widest font-bold text-emerald-800">Cash Payment</p>
+                <p className="text-[10px] uppercase tracking-widest font-bold text-emerald-800">
+                  Cash Payment
+                </p>
                 <p className="text-xs text-muted-foreground max-w-[280px] mx-auto">
-                  Collect ₹${amount.toFixed(2)} cash from client. Once received, click below to confirm.
+                  Collect ₹${amount.toFixed(2)} cash from client. Once received, click below to
+                  confirm.
                 </p>
               </div>
-              <button 
+              <button
                 onClick={() => {
                   toast.success("Cash Payment recorded! 🎉");
-                  onSuccess('cash');
+                  onSuccess("cash");
                   onClose();
                 }}
                 className="inline-flex items-center gap-1.5 rounded-none bg-foreground text-background px-6 py-3 text-[10px] uppercase tracking-widest font-bold hover:bg-bronze hover:text-white transition-all duration-300"
